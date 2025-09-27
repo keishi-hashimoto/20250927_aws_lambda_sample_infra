@@ -1,0 +1,6 @@
+[tools]
+terraform = "latest"
+pre-commit = "latest"
+
+[env]
+'_'.file = ".env"
