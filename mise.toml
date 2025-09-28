@@ -1,6 +1,7 @@
 [tools]
 terraform = "latest"
 pre-commit = "latest"
+actionlint = "latest"
 
 [env]
 '_'.file = ".env"
