@@ -40,6 +40,11 @@ resource "aws_lambda_function" "main" {
   runtime       = "python3.13"
 }
 
+import {
+  id = var.lambda_role_name
+  to = aws_iam_role.main
+}
+
 resource "aws_iam_role" "main" {
   name               = var.lambda_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
