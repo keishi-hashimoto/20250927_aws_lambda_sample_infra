@@ -7,6 +7,10 @@ terraform {
       source  = "hashicorp/aws"
     }
   }
+
+  backend "s3" {
+
+  }
 }
 
 provider "aws" {
