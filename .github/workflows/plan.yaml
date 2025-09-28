@@ -23,6 +23,7 @@ jobs:
       backend_key_basename: ${{ secrets.backend_key_basename }}
       TF_VAR_function_name: ${{ secrets.TF_VAR_function_name }}
       TF_VAR_lambda_role_name: ${{ secrets.TF_VAR_lambda_role_name }}
+      TF_VAR_invoker_bucket: ${{ secrets.TF_VAR_invoker_bucket }}
     steps:
       - name: checkout
         uses: actions/checkout@v5
