@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 import {
-  id = "khashimoto_20250927_sample"
+  id = var.function_name
   to = aws_lambda_function.main
 }
 
@@ -29,13 +29,34 @@ resource "aws_lambda_function" "main" {
     ignore_changes = [filename, source_code_hash]
   }
 
-  role          = data.aws_iam_role.main.arn
-  function_name = "khashimoto_20250927_sample"
+  role          = aws_iam_role.main.arn
+  function_name = var.function_name
   filename      = ""
   handler       = "my_func.my_handler"
   runtime       = "python3.13"
 }
 
-data "aws_iam_role" "main" {
-  name = var.role_name
+resource "aws_iam_role" "main" {
+  name               = var.lambda_role_name
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy" "main" {
+  name = "AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "main" {
+  policy_arn = data.aws_iam_policy.main.arn
+  role       = aws_iam_role.main.name
 }

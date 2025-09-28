@@ -1,4 +1,9 @@
-variable "role_name" {
+variable "function_name" {
   type        = string
-  description = "Name of lambda function role."
+  description = "lambda function name"
+}
+
+variable "lambda_role_name" {
+  type        = string
+  description = "lambda execution role name"
 }
