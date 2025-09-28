@@ -2,6 +2,7 @@
 terraform = "latest"
 pre-commit = "latest"
 actionlint = "latest"
+tfnotify = "latest"
 
 [env]
 '_'.file = ".env"
