@@ -90,3 +90,11 @@ resource "aws_lambda_permission" "main" {
   principal     = "s3.amazonaws.com"
   source_arn    = aws_s3_bucket.lambda_invoker.arn
 }
+
+resource "aws_s3_bucket_notification" "main" {
+  bucket = aws_s3_bucket.lambda_invoker.bucket
+  lambda_function {
+    events              = ["s3:ObjectCreated:*"]
+    lambda_function_arn = aws_lambda_function.main.arn
+  }
+}
