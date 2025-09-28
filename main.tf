@@ -78,3 +78,15 @@ resource "aws_iam_role_policy_attachment" "s3_full_access" {
   role       = aws_iam_role.main.name
   policy_arn = data.aws_iam_policy.s3_full_access.arn
 }
+
+resource "aws_s3_bucket" "lambda_invoker" {
+  bucket = var.invoker_bucket
+}
+
+
+resource "aws_lambda_permission" "main" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.main.function_name
+  principal     = "s3.amazonaws.com"
+  source_arn    = aws_s3_bucket.lambda_invoker.arn
+}
