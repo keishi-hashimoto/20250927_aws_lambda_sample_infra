@@ -7,6 +7,10 @@ terraform {
       source  = "hashicorp/aws"
     }
   }
+
+  backend "s3" {
+
+  }
 }
 
 provider "aws" {
@@ -56,7 +60,16 @@ data "aws_iam_policy" "main" {
   name = "AWSLambdaBasicExecutionRole"
 }
 
+data "aws_iam_policy" "s3_full_access" {
+  name = "AmazonS3FullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "main" {
   policy_arn = data.aws_iam_policy.main.arn
   role       = aws_iam_role.main.name
+}
+
+resource "aws_iam_role_policy_attachment" "s3_full_access" {
+  role       = aws_iam_role.main.name
+  policy_arn = data.aws_iam_policy.s3_full_access.arn
 }
