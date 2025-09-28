@@ -1,0 +1,42 @@
+name: terraform plan
+run-name: terraform plan
+on:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+permissions: {}
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    env:
+      backend_bucket: ${{ secrets.backend_bucket }}
+      backend_key_basename: ${{ secrets.backend_key_basename }}
+      TF_VAR_function_name: ${{ secrets.TF_VAR_function_name }}
+      TF_VAR_lambda_role_name: ${{ secrets.TF_VAR_lambda_role_name }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+      - name: setup mise
+        uses: jdx/mise-action@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: GitHubActions
+      - name: terraform init
+        run: mise run tf-init
+      - name: terraform plan
+        run: terraform plan | tfnotify plan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
