@@ -12,3 +12,9 @@ repos:
         types: ["terraform"]
         entry: terraform validate
         pass_filenames: false
+      - id: action lint
+        name: action lint
+        language: system
+        types: ["yaml"]
+        files: \.github/workflows/
+        entry: actionlint
