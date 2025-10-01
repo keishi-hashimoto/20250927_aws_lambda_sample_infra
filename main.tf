@@ -106,3 +106,12 @@ resource "aws_s3_bucket_notification" "main" {
     lambda_function_arn = aws_lambda_function.main.arn
   }
 }
+
+import {
+  id = var.dst_bucket
+  to = aws_s3_bucket.dst_bucket
+}
+
+resource "aws_s3_bucket" "dst_bucket" {
+  bucket = var.dst_bucket
+}
