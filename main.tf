@@ -29,6 +29,7 @@ import {
 
 
 resource "aws_lambda_function" "main" {
+  # ソースコードはアプリ側のリポジトリで管理するので、こちら側では無視する
   lifecycle {
     ignore_changes = [filename, source_code_hash]
   }
@@ -38,6 +39,13 @@ resource "aws_lambda_function" "main" {
   filename      = ""
   handler       = "my_func.my_handler"
   runtime       = "python3.13"
+
+  environment {
+    variables = {
+      # TODO: 環境 (terraform のワークスペース) ごとに指定できるようにする
+      DST_BUCKET = var.dst_bucket
+    }
+  }
 }
 
 import {

@@ -12,3 +12,8 @@ variable "invoker_bucket" {
   type        = string
   description = "Bucket name of lambda event source"
 }
+
+variable "dst_bucket" {
+  type        = string
+  description = "Dst bucket name for lambda function"
+}
