@@ -24,6 +24,7 @@ jobs:
       TF_VAR_function_name: ${{ secrets.TF_VAR_function_name }}
       TF_VAR_lambda_role_name: ${{ secrets.TF_VAR_lambda_role_name }}
       TF_VAR_invoker_bucket: ${{ secrets.TF_VAR_invoker_bucket }}
+      TF_VAR_dst_bucket: ${{ secrets.TF_VAR_dst_bucket }}
     steps:
       - name: checkout
         uses: actions/checkout@v5
